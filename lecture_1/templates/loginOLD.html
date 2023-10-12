@@ -4,28 +4,40 @@
     <title>Create Account</title>
 </head>
 <body>
-    <div class="container">
-        <h1>Login</h1>
-        <form method="POST">
-            {{ form.hidden_tag() }}
-            <div>
-                {{ form.username.label }}
-                {{ form.username(size=32) }}
+    <main>
+        <div class="container">
+            <div class="card mb-3">
+                <div class="card-body">
+                    <div class="pt-4 pb-2">
+                        <h5 class="card-title text-center pb-0 fs-4">Create an Account</h5>
+                    </div>
+                    <form method="POST">
+                        {{ form.hidden_tag() }}
+                        <div class="col-12">
+                            <label for="yourUsername" class="form-label">Username</label>
+                            <div class="input-group has-validation">
+                                <span class="input-group-text" id="inputGroupPrepend">@</span>
+                                {{ form.username(size=32, id="yourUsername", class="form-control", required="required") }}
+                                <div class="invalid-feedback">Please enter your username.</div>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <label for="yourPassword" class="form-label">Password</label>
+                            {{ form.password(size=32, id="yourPassword", class="form-control", required="required") }}
+                            <div class="invalid-feedback">Please enter your password!</div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-check">
+                                {% if message %}{{ message }}{% endif %}
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            {{ form.submit(class="btn btn-primary w-100") }}
+                        </div>
+                    </form>
+                </div>
             </div>
-            <div>
-                {{ form.password.label }}
-                {{ form.password(size=32) }}
-            </div>
-            <div>
-                {{ form.submit() }}
-                <button>
-                    <a href="http://127.0.0.1:5000/register">Create Account</a>
-                </button>
-            </div>
-        </form>
-    </div>
-    <div class="alert">
-        {{ message }}
-    </div>
+        </div>
+    </main>
 </body>
 </html>

@@ -24,7 +24,7 @@ app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://Hirviturkki:123456@localhost/lecture_1_website'
 db = SQLAlchemy(app)
 
-
+app.static_folder = 'static'
 
 hidden_key = secrets.token_urlsafe(32)
 app.secret_key = hidden_key
@@ -51,6 +51,7 @@ class User(db.Model, UserMixin):
     email = db.Column(db.String(120), unique=True, nullable=False)
     full_name = db.Column(db.String(100), nullable=False)
     is_approved = db.Column(db.Boolean, default=False)
+    profile_picture = db.Column(db.String(120), default="default_profile_pic.jpg")
     registration_date = db.Column(db.DateTime, default=datetime.utcnow)
     last_login_date = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
 
@@ -142,7 +143,7 @@ def login():
         user = User.query.filter_by(username=form.username.data).first()
 
         if user and check_password_hash(user.password_hash, form.password.data):
-            if user.is_approved:
+            if user.is_authenticated():
             #if is_approved
                 login_user(user)
                 return redirect(url_for('dashboard'))
